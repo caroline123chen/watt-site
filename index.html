@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Watt — One API key. Every model. Lower cost. Australian support.</title>
-<meta name="description" content="One Watt API key reaches OpenAI, Anthropic, Google, DeepSeek and more — billed in AUD with local Australian support. Lower cost today, automatic AI spend optimization as you grow." />
-<meta property="og:title" content="Watt — One API key. Every model. Lower cost." />
-<meta property="og:description" content="Reach every major AI model through one OpenAI-compatible key, billed in AUD with Australian support. Switch on automatic spend optimization as you grow." />
-<meta name="theme-color" content="#050506" />
-<script>(function(){try{var k='watt_lang',s=localStorage.getItem(k),z;if(s){z=(s==='zh');}else{var ls=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||'']).join(',').toLowerCase();z=/zh|zh-cn|zh-hans/.test(ls);}if(z){var d=document.documentElement;d.classList.add('zh');d.setAttribute('lang','zh-CN');}}catch(e){}})();</script>
+<title>Watt — One API. Every leading AI model. The best price.</title>
+<meta name="description" content="Watt is a single OpenAI-compatible endpoint for Claude, GPT, Gemini, DeepSeek, MiniMax, GLM and more. Reduce costs, simplify billing, and manage all your AI usage from one dashboard." />
+<meta property="og:title" content="Watt — One API. Every leading AI model." />
+<meta property="og:description" content="A single OpenAI-compatible endpoint for every leading AI model. Lower cost, one bill, one dashboard." />
+<meta name="theme-color" content="#08090c" />
 <style>
   :root{
-    --bg:#050506; --ink:#f3f4f6; --muted:#9a9ea8; --faint:#5a5e68; --line:rgba(255,255,255,.07); --panel:rgba(255,255,255,.022);
-    --amber:#e8b04b;
+    --bg:#08090c; --bg2:#0c0e13; --ink:#f4f5f7; --muted:#9398a4; --faint:#596072;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14); --panel:rgba(255,255,255,.025); --panel2:rgba(255,255,255,.04);
+    --amber:#e8b04b; --green:#4ec98a; --blue:#6ea8fe; --violet:#9d8bff;
     --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
     --mono:"SFMono-Regular",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
   }
@@ -20,400 +20,393 @@
   html{scroll-behavior:smooth}
   body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 30px}
-  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+  .mono{font-family:var(--mono)}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
 
-  /* bilingual */
-  .t.zh{display:none}
-  html.zh .t.en{display:none}
-  html.zh .t.zh{display:inline}
-  html.zh body{font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Noto Sans CJK SC",var(--sans)}
+  /* backdrop */
+  .bgfx{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .bgfx .grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:54px 54px;opacity:.5;mask-image:radial-gradient(120% 80% at 50% 0%,#000 0%,transparent 70%)}
+  .bgfx .glow{position:absolute;top:-220px;left:50%;transform:translateX(-50%);width:1100px;height:620px;background:radial-gradient(closest-side,rgba(232,176,75,.16),transparent 70%);filter:blur(8px)}
+  .bgfx .glow2{position:absolute;top:120px;right:-160px;width:620px;height:520px;background:radial-gradient(closest-side,rgba(110,168,254,.10),transparent 70%)}
+  main,nav,footer{position:relative;z-index:1}
 
-  /* flowing wave field (canvas) */
-  #waves{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block}
-  .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-  .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(48% 36% at 18% 14%, rgba(232,176,75,.11), transparent 62%),radial-gradient(50% 42% at 86% 84%, rgba(77,163,255,.11), transparent 62%),radial-gradient(95% 60% at 50% 44%, rgba(5,5,6,.5) 0%, rgba(5,5,6,.18) 36%, transparent 56%),radial-gradient(130% 100% at 50% 28%, transparent 42%, rgba(5,5,6,.5) 76%, var(--bg) 100%),linear-gradient(180deg, var(--bg) 0%, transparent 16%)}
-
-  nav{position:fixed;top:0;left:0;right:0;z-index:20;height:68px;display:flex;align-items:center;background:linear-gradient(180deg,rgba(5,5,6,.55),transparent)}
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;height:64px;display:flex;align-items:center;background:rgba(8,9,12,.72);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
   nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
   .brand{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-weight:600;font-size:16px;letter-spacing:.01em}
-  .bolt{width:18px;height:18px;color:var(--amber)}
+  .bolt{width:17px;height:17px;color:var(--amber)}
+  .navmid{display:flex;align-items:center;gap:28px}
+  .navmid a{font-size:14px;color:var(--muted);transition:.15s}
+  .navmid a:hover{color:var(--ink)}
   .navright{display:flex;align-items:center;gap:18px}
-  .langsw{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px}
-  .langsw button{background:none;border:0;color:var(--faint);cursor:pointer;font:inherit;padding:2px 3px}
-  .langsw button:hover{color:var(--muted)}
-  .langsw button.active{color:var(--ink)}
-  .langsw .sep{color:var(--line)}
-  .navlink{font-family:var(--mono);font-size:12.5px;color:var(--muted);transition:.2s}
-  .navlink:hover{color:var(--ink)}
-  .navlink.cta{color:var(--ink)}
-  @media(max-width:720px){.navright .hideSm{display:none}}
+  .navright .signin{font-size:14px;color:var(--muted)}
+  .navright .signin:hover{color:var(--ink)}
+  @media(max-width:820px){.navmid{display:none}}
 
-  .hero{position:relative;z-index:2;min-height:100svh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:140px 0 96px}
-  .hero h1{font-size:clamp(40px,7.2vw,84px);line-height:1.03;letter-spacing:-.035em;font-weight:600;max-width:16ch;margin:24px auto 0;text-wrap:balance}
-  .hero h1 .l2{display:block;color:var(--muted);font-weight:500;margin-top:.18em}
-  .hero p.sub{margin:30px auto 0;font-size:clamp(16px,1.65vw,19px);color:var(--muted);max-width:56ch;line-height:1.65}
-  .cta-row{margin-top:44px;display:flex;gap:24px;justify-content:center;align-items:center;flex-wrap:wrap}
-  .btn{font-size:15px;padding:15px 30px;border-radius:12px;font-weight:500;transition:.2s;letter-spacing:-.01em}
+  .btn{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:500;padding:9px 16px;border-radius:9px;transition:.16s;letter-spacing:-.01em;border:1px solid transparent;cursor:pointer}
   .btn.primary{background:var(--ink);color:#06070a}
   .btn.primary:hover{background:#fff;transform:translateY(-1px)}
-  .btn.text{color:var(--muted);font-size:14.5px}
-  .btn.text:hover{color:var(--ink)}
-  .herofoot{margin-top:30px;font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.05em}
+  .btn.ghost{border-color:var(--line2);color:var(--ink)}
+  .btn.ghost:hover{background:var(--panel2);border-color:#33384a}
+  .btn.lg{padding:13px 22px;font-size:15px;border-radius:11px}
 
-  section.band{position:relative;z-index:2;background:var(--bg);border-top:1px solid var(--line)}
-  .pad{padding:100px 0}
-  .seclabel{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);text-align:center;margin-bottom:14px}
-  .sectitle{font-size:clamp(24px,3.4vw,34px);text-align:center;letter-spacing:-.02em;max-width:26ch;margin:0 auto;font-weight:600;line-height:1.18}
-  .secsub{color:var(--muted);text-align:center;max-width:60ch;margin:16px auto 0;font-size:16px;line-height:1.6}
-  .lead{font-size:clamp(21px,2.7vw,32px);line-height:1.45;letter-spacing:-.018em;max-width:30ch;color:var(--muted);font-weight:500}
-  .lead .hl{color:var(--ink)}
-  .vision .wrap{max-width:900px}
-  .center{text-align:center}
+  section{padding:96px 0}
+  .seclabel{font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);text-align:center}
+  .sectitle{font-size:clamp(26px,3.4vw,38px);text-align:center;letter-spacing:-.025em;font-weight:600;max-width:20ch;margin:14px auto 0;line-height:1.15}
+  .secsub{color:var(--muted);text-align:center;max-width:58ch;margin:16px auto 0;font-size:16px;line-height:1.65}
 
-  .grid{display:grid;gap:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:44px}
-  .g-3{grid-template-columns:repeat(3,1fr)} .g-4{grid-template-columns:repeat(4,1fr)} .g-2{grid-template-columns:repeat(2,1fr)}
-  @media(max-width:860px){.g-4{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:760px){.g-3,.g-2{grid-template-columns:1fr}}
-  .cell{padding:30px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel)}
-  .cell .k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
-  .cell .num{font-family:var(--mono);font-size:12px;color:var(--muted);width:28px;height:28px;border:1px solid var(--line);border-radius:7px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
-  .cell h4{font-size:16px;letter-spacing:-.01em;font-weight:600;margin-top:4px}
-  .cell h3{font-size:19px;letter-spacing:-.01em;font-weight:600;margin-top:16px}
-  .cell p{color:var(--muted);font-size:14px;margin-top:10px;line-height:1.62}
-  .cell.q-cell .q{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+  /* hero */
+  .hero{text-align:center;padding:96px 0 70px}
+  .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);background:var(--panel);border-radius:999px;padding:6px 14px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+  .hero h1{font-size:clamp(38px,6.4vw,72px);line-height:1.03;letter-spacing:-.04em;font-weight:600;max-width:17ch;margin:26px auto 0;text-wrap:balance}
+  .hero h1 .g{background:linear-gradient(110deg,#fff 10%,var(--amber) 60%,#caa24a 90%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p.sub{margin:24px auto 0;font-size:clamp(16px,1.6vw,19px);color:var(--muted);max-width:62ch;line-height:1.62}
+  .cta-row{margin-top:36px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .herofoot{margin-top:26px;font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.04em}
 
-  /* API code panel */
-  .codepanel{max-width:680px;margin:34px auto 0;text-align:left;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:22px 24px;font-family:var(--mono);font-size:13px;line-height:1.75;color:var(--muted);overflow-x:auto}
-  .codepanel .c{color:var(--faint)}
-  .codepanel .v{color:var(--amber)}
-  .codepanel .m{color:var(--ink)}
-  .modelrow{display:flex;flex-wrap:wrap;gap:10px 16px;justify-content:center;margin-top:32px;font-family:var(--mono);font-size:12.5px;color:var(--faint);letter-spacing:.04em}
-  .modelrow .dot{color:var(--line)}
-  .workswith{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);text-align:center;margin-top:42px}
-  .logorow{display:flex;flex-wrap:wrap;gap:30px 60px;justify-content:center;align-items:flex-end;margin-top:28px}
-  .plogo{display:flex;flex-direction:column;align-items:center;gap:11px}
-  .plogo img,.plogo svg{height:80px;width:auto;opacity:.97;transition:opacity .2s,transform .2s}
-  .plogo:hover img,.plogo:hover svg{opacity:1;transform:translateY(-2px)}
-  .plogo span{font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--muted);margin-top:2px}
+  /* trusted models */
+  .logos{display:flex;flex-wrap:wrap;gap:26px 48px;justify-content:center;align-items:center;margin-top:34px}
+  .lg-item{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:15px;font-weight:500;opacity:.92;transition:.16s}
+  .lg-item:hover{opacity:1;color:var(--ink)}
+  .lg-item svg{height:24px;width:auto}
+  .lg-item .tw{font-family:var(--mono);font-size:13px;letter-spacing:.02em}
+
+  /* cards grid */
+  .grid{display:grid;gap:18px;margin-top:48px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g5{grid-template-columns:repeat(5,1fr)}
+  @media(max-width:980px){.g5{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:760px){.g3,.g5{grid-template-columns:1fr}}
+  .card{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:26px;transition:.18s}
+  .card:hover{border-color:var(--line2);background:var(--panel2)}
+  .card .ic{width:34px;height:34px;border-radius:9px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--amber);margin-bottom:16px}
+  .card h3{font-size:16px;font-weight:600;letter-spacing:-.01em}
+  .card p{color:var(--muted);font-size:14px;margin-top:9px;line-height:1.6}
+
+  /* code */
+  .codewrap{max-width:760px;margin:44px auto 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#0a0c11}
+  .codetabs{display:flex;gap:2px;border-bottom:1px solid var(--line);padding:0 6px;background:var(--bg2)}
+  .codetabs span{font-family:var(--mono);font-size:12.5px;color:var(--faint);padding:11px 14px}
+  .codetabs span.on{color:var(--ink);box-shadow:inset 0 -1px 0 var(--amber)}
+  pre{margin:0;padding:22px 24px;overflow-x:auto;font-family:var(--mono);font-size:13.5px;line-height:1.75;color:#c7ccd6}
+  .c-c{color:#5d6470}.c-k{color:#9d8bff}.c-s{color:var(--amber)}.c-m{color:#6ea8fe}.c-f{color:#7fd6a8}
 
   /* pricing */
-  .price .cell{text-align:center}
-  .price .amt{font-size:32px;font-weight:600;letter-spacing:-.02em;margin-top:8px}
-  .price .amt small{font-size:13px;color:var(--muted);font-weight:500}
-  .price .bonus{font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:.08em;text-transform:uppercase;margin-top:8px}
-  .addon{max-width:660px;margin:30px auto 0;text-align:center;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:24px 26px}
-  .addon .k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
-  .addon p{color:var(--muted);font-size:15px;margin-top:9px;line-height:1.62}
-  .addon b{color:var(--ink)}
-  .finenote{font-family:var(--mono);font-size:12px;color:var(--faint);text-align:center;margin-top:22px;letter-spacing:.02em}
-  .toggle-wrap{text-align:center}
-  .billtoggle{display:inline-flex;margin:30px auto 0;border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px;background:var(--panel)}
-  .billtoggle button{background:none;border:0;color:var(--muted);cursor:pointer;font:inherit;font-family:var(--mono);font-size:12.5px;padding:9px 16px;border-radius:9px;letter-spacing:.02em;transition:.2s}
+  .toggle-wrap{text-align:center;margin-top:30px}
+  .billtoggle{display:inline-flex;border:1px solid var(--line);border-radius:11px;padding:4px;gap:4px;background:var(--panel)}
+  .billtoggle button{background:none;border:0;color:var(--muted);cursor:pointer;font-family:var(--mono);font-size:12.5px;padding:9px 16px;border-radius:8px;transition:.16s}
   .billtoggle button.active{background:var(--ink);color:#06070a}
-  .billtoggle .save{color:var(--amber)}
-  .billtoggle button.active .save{color:#7a5a12}
-  .plan{display:flex;flex-direction:column;position:relative;text-align:left}
-  .plan .amt{margin-top:10px;text-align:left}
-  .plan .amt small{font-size:13px;color:var(--muted);font-weight:500;margin-left:3px}
-  .plan p{flex:1}
-  .plan .planbtn{margin-top:22px;display:block;text-align:center;font-size:14px;padding:13px 18px;border-radius:10px;border:1px solid var(--line);color:var(--ink);font-family:var(--mono);letter-spacing:-.01em;transition:.2s}
-  .plan .planbtn:hover{border-color:var(--muted);transform:translateY(-1px)}
-  .plan .planbtn.primary{background:var(--ink);color:#06070a;border-color:var(--ink)}
-  .plan .planbtn.primary:hover{background:#fff}
-  .plan.popular{border-color:rgba(232,176,75,.45)}
-  .plan .tag{position:absolute;top:0;right:0;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#06070a;background:var(--amber);padding:5px 10px;border-radius:0 18px 0 10px}
-  .py{display:none}
-  .price.yr .pm{display:none}
-  .price.yr .py{display:inline}
+  .billtoggle .save{color:var(--amber)} .billtoggle button.active .save{color:#7a5a12}
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+  @media(max-width:820px){.plans{grid-template-columns:1fr}}
+  .plan{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:28px;display:flex;flex-direction:column;position:relative}
+  .plan.pop{border-color:rgba(232,176,75,.5);background:linear-gradient(180deg,rgba(232,176,75,.05),var(--panel))}
+  .plan .tag{position:absolute;top:0;right:0;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#06070a;background:var(--amber);padding:5px 11px;border-radius:0 16px 0 11px}
+  .plan .pk{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .plan .amt{font-size:34px;font-weight:600;letter-spacing:-.02em;margin-top:12px}
+  .plan .amt small{font-size:14px;color:var(--muted);font-weight:500;margin-left:3px}
+  .plan ul{list-style:none;margin:20px 0 0;padding:0;flex:1}
+  .plan li{color:var(--muted);font-size:14px;padding:7px 0 7px 24px;position:relative;line-height:1.5}
+  .plan li::before{content:"";position:absolute;left:0;top:13px;width:12px;height:7px;border-left:1.6px solid var(--green);border-bottom:1.6px solid var(--green);transform:rotate(-45deg)}
+  .plan li b{color:var(--ink);font-weight:600}
+  .plan .btn{margin-top:22px;justify-content:center}
+  .py{display:none} .pricing.yr .pm{display:none} .pricing.yr .py{display:inline}
 
-  .offer{max-width:640px;margin:36px auto 0;text-align:left}
-  .offer li{color:var(--muted);font-size:15px;margin:13px 0;list-style:none;padding-left:26px;position:relative;line-height:1.55}
-  .offer li::before{content:"—";color:var(--faint);position:absolute;left:0;font-family:var(--mono)}
-  .offer li b{color:var(--ink);font-weight:600}
+  /* dashboard preview */
+  .dash{max-width:1000px;margin:44px auto 0;border:1px solid var(--line2);border-radius:18px;overflow:hidden;background:var(--bg2);box-shadow:0 40px 120px rgba(0,0,0,.55)}
+  .dash .top{display:flex;align-items:center;gap:8px;padding:13px 18px;border-bottom:1px solid var(--line);background:#0a0c11}
+  .dash .top .d{width:11px;height:11px;border-radius:50%;background:#2a2f3c}
+  .dash .top .t{margin-left:12px;font-family:var(--mono);font-size:12px;color:var(--faint)}
+  .dash .body{padding:24px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--panel)}
+  .stat .l{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .stat .v{font-size:24px;font-weight:600;letter-spacing:-.02em;margin-top:7px}
+  .stat .v small{font-size:12px;color:var(--green);font-weight:500;margin-left:6px}
+  .dgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;margin-top:14px}
+  @media(max-width:760px){.dgrid{grid-template-columns:1fr}}
+  .dbox{border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--panel)}
+  .dbox h4{font-size:13px;font-weight:600;color:var(--ink)}
+  .bar{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:13px}
+  .bar .nm{width:108px;color:var(--muted);font-family:var(--mono);font-size:12px}
+  .bar .track{flex:1;height:8px;border-radius:6px;background:var(--panel2);overflow:hidden}
+  .bar .fill{height:100%;border-radius:6px}
+  .bar .pct{width:38px;text-align:right;color:var(--muted);font-family:var(--mono);font-size:12px}
+  .act{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--muted);padding:8px 0;border-top:1px solid var(--line)}
+  .act:first-of-type{border-top:0}
+  .act .ok{color:var(--green)}
+  .keyrow{display:flex;align-items:center;gap:10px;margin-top:14px;border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:#0a0c11;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+  .keyrow .k{flex:1;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .keyrow .copy{border:1px solid var(--line2);border-radius:7px;padding:5px 10px;color:var(--muted);font-size:11px;cursor:pointer}
 
-  .ctacenter{margin-top:36px;display:flex;gap:22px;justify-content:center;align-items:center;flex-wrap:wrap}
+  /* docs preview */
+  .docprev{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:44px;align-items:center}
+  @media(max-width:820px){.docprev{grid-template-columns:1fr}}
+  .doclist{list-style:none;padding:0;margin:18px 0 0}
+  .doclist li{border-top:1px solid var(--line);padding:14px 0;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:14px;transition:.15s}
+  .doclist li:hover{color:var(--ink)}
+  .doclist li .ar{color:var(--faint)}
 
-  .founder{max-width:760px;margin:0 auto;border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:34px;text-align:left}
-  .founder h4{font-size:17px;font-weight:600}
-  .founder p{color:var(--muted);font-size:15px;margin-top:12px;line-height:1.7}
+  /* faq */
+  .faq{max-width:760px;margin:40px auto 0}
+  .qa{border-top:1px solid var(--line);padding:22px 0}
+  .qa h4{font-size:16px;font-weight:600}
+  .qa p{color:var(--muted);font-size:14.5px;margin-top:9px;line-height:1.6}
 
-  .partners{text-align:center}
-  .partners h2{font-size:clamp(28px,3.8vw,42px);letter-spacing:-.025em;font-weight:600;max-width:18ch;margin:0 auto;text-wrap:balance}
-  .partners p{color:var(--muted);font-size:16px;margin:18px auto 0;max-width:50ch;line-height:1.65}
-  .formlead{font-family:var(--mono);font-size:13px;color:var(--muted);margin:34px 0 -2px;letter-spacing:.02em}
-  .embed{margin:14px auto 0;max-width:480px;min-height:74px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:14px;padding:8px;box-shadow:0 24px 70px rgba(0,0,0,.55)}
-  .embed > *{width:100%}
-  .cohort{font-family:var(--mono);font-size:12.5px;color:var(--faint);margin-top:22px;letter-spacing:.03em}
+  /* final cta */
+  .finalcta{border:1px solid var(--line2);border-radius:20px;background:linear-gradient(180deg,rgba(232,176,75,.06),var(--panel));padding:56px 28px;text-align:center;margin-top:0}
+  .finalcta h2{font-size:clamp(26px,3.6vw,40px);letter-spacing:-.025em;font-weight:600}
+  .finalcta p{color:var(--muted);margin:14px auto 0;max-width:46ch}
 
-  footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var(--line);padding:44px 0;color:var(--faint);font-size:13px}
-  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center}
-  footer a:hover{color:var(--ink)}
-
-  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:54px 0 40px;margin-top:96px}
+  .fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:28px}
+  @media(max-width:760px){.fgrid{grid-template-columns:1fr 1fr}}
+  .fcol h5{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
+  .fcol a{display:block;color:var(--muted);font-size:14px;padding:5px 0;transition:.15s}
+  .fcol a:hover{color:var(--ink)}
+  .fbottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:40px;padding-top:24px;border-top:1px solid var(--line);color:var(--faint);font-size:13px}
+  .fbottom a{color:var(--muted)} .fbottom a:hover{color:var(--ink)}
 </style>
 </head>
 <body>
-
-<canvas id="waves" aria-hidden="true"></canvas>
-<div class="grain" aria-hidden="true"></div>
-<div class="vignette" aria-hidden="true"></div>
+<div class="bgfx" aria-hidden="true"><div class="grid"></div><div class="glow"></div><div class="glow2"></div></div>
 
 <nav>
   <div class="wrap">
     <a class="brand" href="#top"><svg class="bolt" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13l0-8z"/></svg> Watt</a>
+    <div class="navmid">
+      <a href="#pricing">Pricing</a>
+      <a href="#models">Models</a>
+      <a href="#docs">Docs</a>
+      <a href="#dashboard">Dashboard</a>
+    </div>
     <div class="navright">
-      <a class="navlink hideSm" href="#api"><span class="t en">API Access</span><span class="t zh">API 接入</span></a>
-      <a class="navlink hideSm" href="#pricing"><span class="t en">Pricing</span><span class="t zh">价格</span></a>
-      <a class="navlink hideSm" href="#teardown"><span class="t en">Optimize</span><span class="t zh">成本优化</span></a>
-      <div class="langsw" aria-label="Language"><button type="button" data-lang="en">EN</button><span class="sep">|</span><button type="button" data-lang="zh">中文</button></div>
-      <a class="navlink cta" href="#pricing"><span class="t en">Get your key →</span><span class="t zh">获取 API key →</span></a>
+      <a class="signin" href="#dashboard">Sign in</a>
+      <a class="btn primary" href="#pricing">Get started</a>
     </div>
   </div>
 </nav>
 
-<header class="hero" id="top">
+<main id="top">
+
+<!-- HERO -->
+<header class="hero">
   <div class="wrap">
-    <div class="eyebrow"><span class="t en">AI infrastructure for Australian teams</span><span class="t zh">面向澳洲团队的 AI 基础设施</span></div>
-    <h1><span class="t en">One API key. Every model. Lower cost.<span class="l2">Australian support, AUD billing.</span></span><span class="t zh">一个 API key，调用所有模型，成本更低。<span class="l2">澳洲本地支持，澳元结算。</span></span></h1>
-    <p class="sub"><span class="t en">Reach OpenAI, Anthropic, Google, DeepSeek and more through a single endpoint — billed in AUD, with a real person behind it. Start cheaper today; switch on automatic spend optimization as you grow.</span><span class="t zh">通过一个接入点调用 OpenAI、Anthropic、Google、DeepSeek 等所有主流模型——以澳元计费，背后是真人支持。今天先用更低成本起步；随着用量增长，再开启自动成本优化。</span></p>
+    <span class="pill"><span class="dot"></span> OpenAI-compatible · one endpoint · AUD billing</span>
+    <h1>One API. Every leading AI model. <span class="g">The best price.</span></h1>
+    <p class="sub">Watt provides a single OpenAI-compatible endpoint for Claude, GPT, Gemini, DeepSeek, MiniMax, GLM and more. Reduce costs, simplify billing, and manage all your AI usage from one dashboard.</p>
     <div class="cta-row">
-      <a class="btn primary" href="#pricing"><span class="t en">Get your API key →</span><span class="t zh">获取你的 API key →</span></a>
-      <a class="btn text" href="#pricing"><span class="t en">See pricing</span><span class="t zh">查看价格</span></a>
+      <a class="btn primary lg" href="#pricing">Get started →</a>
+      <a class="btn ghost lg" href="#docs">View documentation</a>
     </div>
-    <div class="herofoot"><span class="t en">Free A$10 starter credit · OpenAI-compatible · GST tax invoice</span><span class="t zh">赠送 A$10 起步额度 · 兼容 OpenAI · 提供 GST 税务发票</span></div>
+    <div class="herofoot">Change one base URL · your OpenAI SDK code just works · GST tax invoices</div>
   </div>
 </header>
 
-<!-- API ACCESS -->
-<section class="band" id="api">
-  <div class="wrap pad">
-    <div class="seclabel"><span class="t en">API Access</span><span class="t zh">API 接入</span></div>
-    <h2 class="sectitle"><span class="t en">Every model, one key, billed in AUD.</span><span class="t zh">所有模型，一个 key，澳元计费。</span></h2>
-    <p class="secsub"><span class="t en">Stop juggling four provider accounts and a US credit card. One OpenAI-compatible key reaches them all — one monthly AUD bill, local support.</span><span class="t zh">不必再为四个供应商账户和一张美元信用卡来回折腾。一个兼容 OpenAI 的 key 全部搞定——每月一张澳元账单，本地支持。</span></p>
-    <div class="codepanel">
-<span class="c"># point your base URL at Watt — your code doesn't change</span><br>
-client = OpenAI(<br>
-&nbsp;&nbsp;base_url=<span class="v">"https://api.watt.computenotes.co/v1"</span>,<br>
-&nbsp;&nbsp;api_key=<span class="v">"watt-..."</span>,<br>
-)<br>
-client.chat.completions.create(model=<span class="m">"gpt-4o"</span>, ...)<br>
-client.chat.completions.create(model=<span class="m">"claude-sonnet"</span>, ...)<br>
-client.chat.completions.create(model=<span class="m">"deepseek-chat"</span>, ...)&nbsp;&nbsp;<span class="c"># cheap tier</span>
-    </div>
-    <div class="workswith"><span class="t en">Works with</span><span class="t zh">兼容主流模型</span></div>
-    <div class="logorow">
-      <div class="plogo"><svg viewBox="0 0 24 24" fill="#ededed" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="OpenAI"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.3927-.6813zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg><span>OpenAI</span></div>
-      <div class="plogo"><svg viewBox="0 0 24 24" fill="#D97757" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Anthropic"><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></svg><span>Anthropic</span></div>
-      <div class="plogo"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Google Gemini"><defs><linearGradient id="gem" x1="2" y1="3" x2="22" y2="21" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4285F4"/><stop offset=".55" stop-color="#6C75E0"/><stop offset="1" stop-color="#9168C0"/></linearGradient></defs><path fill="url(#gem)" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></svg><span>Google</span></div>
-      <div class="plogo"><img src="https://cdn.simpleicons.org/deepseek/4D6BFE" alt="DeepSeek" loading="lazy" onerror="this.style.display='none'"><span>DeepSeek</span></div>
-    </div>
-    <div class="modelrow" style="margin-top:18px;font-size:11.5px"><span class="t en">+ Llama · Qwen · more</span><span class="t zh">+ Llama · Qwen · 更多</span></div>
-    <div class="grid g-3">
-      <div class="cell"><div class="num">1</div><h4><span class="t en">Get a key</span><span class="t zh">获取 key</span></h4><p><span class="t en">Tell us your stack, grab a credit pack, receive your key.</span><span class="t zh">告诉我们你的技术栈，购买额度包，拿到你的 key。</span></p></div>
-      <div class="cell"><div class="num">2</div><h4><span class="t en">Change one line</span><span class="t zh">改一行</span></h4><p><span class="t en">Point your base URL at Watt. Your code doesn't change.</span><span class="t zh">把 base URL 指向 Watt，你的代码无需改动。</span></p></div>
-      <div class="cell"><div class="num">3</div><h4><span class="t en">Ship</span><span class="t zh">上线</span></h4><p><span class="t en">Call any model with the same key. One AUD bill at month's end.</span><span class="t zh">用同一个 key 调用任意模型。月底一张澳元账单。</span></p></div>
+<!-- TRUSTED MODELS -->
+<section id="models" style="padding-top:40px">
+  <div class="wrap">
+    <div class="seclabel">Every leading model, one endpoint</div>
+    <div class="logos">
+      <span class="lg-item"><svg viewBox="0 0 24 24" fill="#ededed" aria-label="OpenAI"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.3927-.6813zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg> OpenAI</span>
+      <span class="lg-item"><svg viewBox="0 0 24 24" fill="#D97757" aria-label="Anthropic"><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></svg> Anthropic</span>
+      <span class="lg-item"><svg viewBox="0 0 24 24" aria-label="Google Gemini"><defs><linearGradient id="gem" x1="2" y1="3" x2="22" y2="21" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4285F4"/><stop offset=".55" stop-color="#6C75E0"/><stop offset="1" stop-color="#9168C0"/></linearGradient></defs><path fill="url(#gem)" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></svg> Gemini</span>
+      <span class="lg-item"><img src="https://cdn.simpleicons.org/deepseek/4D6BFE" alt="DeepSeek" style="height:24px" onerror="this.style.display='none'"> DeepSeek</span>
+      <span class="lg-item"><span class="tw">MiniMax</span></span>
+      <span class="lg-item"><span class="tw">GLM · Zhipu</span></span>
+      <span class="lg-item"><span class="tw">Llama</span></span>
+      <span class="lg-item"><span class="tw">Qwen</span></span>
     </div>
   </div>
 </section>
 
 <!-- WHY WATT -->
-<section class="band">
-  <div class="wrap pad">
-    <div class="seclabel"><span class="t en">Why Watt</span><span class="t zh">为什么选 Watt</span></div>
-    <h2 class="sectitle"><span class="t en">Cheaper access now. A path to a smaller bill later.</span><span class="t zh">现在更低成本接入，未来账单更小。</span></h2>
-    <div class="grid g-4">
-      <div class="cell"><h4><span class="t en">One key, every model</span><span class="t zh">一个 key，所有模型</span></h4><p><span class="t en">Swap models with a string — not a new integration or a new invoice.</span><span class="t zh">换模型只改一个字符串——不用重新对接，也不用再开一个账户。</span></p></div>
-      <div class="cell"><h4><span class="t en">Lower cost</span><span class="t zh">成本更低</span></h4><p><span class="t en">Run easy work on cheaper models, keep frontier for the hard parts — and stop paying for tokens you don't need.</span><span class="t zh">简单的活儿交给更便宜的模型，难的留给前沿模型——并且不再为用不上的 token 付费。</span></p></div>
-      <div class="cell"><h4><span class="t en">Australian support</span><span class="t zh">澳洲本地支持</span></h4><p><span class="t en">AUD pricing, GST tax invoices, your timezone, and a person who answers — not a US support queue.</span><span class="t zh">澳元定价、GST 税务发票、你的时区，以及一个会回复你的真人——而不是美国客服队列。</span></p></div>
-      <div class="cell"><h4><span class="t en">Optimization built in</span><span class="t zh">内置成本优化</span></h4><p><span class="t en">Turn on Watt's routing and compression and pay only from verified savings. (Coming)</span><span class="t zh">开启 Watt 的路由与压缩，只从可验证的节省里付费。（即将推出）</span></p></div>
+<section>
+  <div class="wrap">
+    <div class="seclabel">Why Watt</div>
+    <h2 class="sectitle">Production AI infrastructure, without the busywork.</h2>
+    <div class="grid g5">
+      <div class="card"><div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M12 4v16"/></svg></div><h3>One API</h3><p>A single OpenAI-compatible endpoint for every model. Swap models with a string.</p></div>
+      <div class="card"><div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h3>Better pricing</h3><p>Cheaper models for the easy work, frontier when it matters — one consolidated bill.</p></div>
+      <div class="card"><div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></svg></div><h3>Usage analytics</h3><p>See spend, tokens, requests and cost by model in real time, per key.</p></div>
+      <div class="card"><div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.87"/></svg></div><h3>Team billing</h3><p>One account, multiple keys, consolidated invoices with GST.</p></div>
+      <div class="card"><div class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div><h3>Fast integration</h3><p>Change one base URL. Your existing OpenAI SDK code just works.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CODE EXAMPLE -->
+<section style="padding-top:40px">
+  <div class="wrap">
+    <div class="seclabel">Drop-in integration</div>
+    <h2 class="sectitle">Point your base URL at Watt. Nothing else changes.</h2>
+    <div class="codewrap">
+      <div class="codetabs"><span class="on">python</span><span>node</span><span>curl</span></div>
+<pre><span class="c-c"># pip install openai — same SDK, one base URL</span>
+<span class="c-k">from</span> openai <span class="c-k">import</span> OpenAI
+
+client = OpenAI(
+    base_url=<span class="c-s">"https://api.watt.computenotes.co/v1"</span>,
+    api_key=<span class="c-s">"watt-..."</span>,
+)
+
+resp = client.chat.completions.<span class="c-f">create</span>(
+    model=<span class="c-m">"claude-sonnet-4-6"</span>,   <span class="c-c"># or gpt-4o, gemini, deepseek-chat ...</span>
+    messages=[{<span class="c-s">"role"</span>: <span class="c-s">"user"</span>, <span class="c-s">"content"</span>: <span class="c-s">"Hello, Watt"</span>}],
+    stream=<span class="c-k">True</span>,
+)</pre>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
-<section class="band price" id="pricing">
-  <div class="wrap pad">
-    <div class="seclabel"><span class="t en">Pricing</span><span class="t zh">价格</span></div>
-    <h2 class="sectitle"><span class="t en">One key for every model. The more you use, the less you pay.</span><span class="t zh">一个 key 调用所有模型，用得越多越便宜。</span></h2>
-    <p class="secsub"><span class="t en">A single API key reaches every model. Higher plans unlock bigger usage discounts — and select models (DeepSeek, Llama, Qwen) are discounted further on every plan. Yearly is cheaper than monthly.</span><span class="t zh">一个 API key 调用所有模型。套餐越高，用量折扣越大——部分模型（DeepSeek、Llama、Qwen）在每个套餐里都享额外折扣。按年比按月更划算。</span></p>
-    <div class="toggle-wrap"><div class="billtoggle" aria-label="Billing period">
-      <button type="button" data-bill="mo" class="active"><span class="t en">Monthly</span><span class="t zh">按月</span></button>
-      <button type="button" data-bill="yr"><span class="t en">Yearly <span class="save">· save 2 months</span></span><span class="t zh">按年 <span class="save">· 省两个月</span></span></button>
+<section id="pricing" class="pricing">
+  <div class="wrap">
+    <div class="seclabel">Pricing</div>
+    <h2 class="sectitle">One key for every model. The more you use, the less you pay.</h2>
+    <p class="secsub">A single API key reaches every model. Higher plans unlock bigger usage discounts — and select models (DeepSeek, Llama, Qwen) are discounted further on every plan. Yearly is cheaper than monthly.</p>
+    <div class="toggle-wrap"><div class="billtoggle">
+      <button type="button" data-bill="mo" class="active">Monthly</button>
+      <button type="button" data-bill="yr">Yearly <span class="save">· save 2 months</span></button>
     </div></div>
-    <div class="grid g-3">
-      <div class="cell plan">
-        <div class="k"><span class="t en">Starter</span><span class="t zh">起步</span></div>
-        <div class="amt"><span class="pm">A$49<small><span class="t en">/mo</span><span class="t zh">/月</span></small></span><span class="py">A$490<small><span class="t en">/yr</span><span class="t zh">/年</span></small></span></div>
-        <p><span class="t en">One key, every model. Standard rates. Email support.</span><span class="t zh">一个 key，调用所有模型。标准费率。邮件支持。</span></p>
-        <a class="planbtn" href="mailto:carol@computenotes.co?subject=Watt%20%E2%80%94%20Starter%20plan&body=Hi%20Carol%2C%0A%0AI%27d%20like%20to%20subscribe%20to%20the%20Watt%20Starter%20plan.%0ABilling%3A%20monthly%20/%20yearly%20%28please%20note%20which%29.%0AModels%20I%20use%3A%0ARough%20monthly%20AI%20spend%3A%0A%0APlease%20send%20me%20a%20secure%20payment%20link.%20Thanks%21"><span class="t en">Choose Starter →</span><span class="t zh">选择起步 →</span></a>
+    <div class="plans">
+      <div class="plan">
+        <div class="pk">Starter</div>
+        <div class="amt"><span class="pm">A$49<small>/mo</small></span><span class="py">A$490<small>/yr</small></span></div>
+        <ul><li>One key, <b>every model</b></li><li>Standard rates</li><li>Usage dashboard</li><li>Email support</li></ul>
+        <a class="btn ghost" href="mailto:carol@computenotes.co?subject=Watt%20%E2%80%94%20Starter%20plan">Get started</a>
       </div>
-      <div class="cell plan popular">
-        <div class="tag"><span class="t en">Most popular</span><span class="t zh">最受欢迎</span></div>
-        <div class="k"><span class="t en">Growth</span><span class="t zh">成长</span></div>
-        <div class="amt"><span class="pm">A$199<small><span class="t en">/mo</span><span class="t zh">/月</span></small></span><span class="py">A$1,990<small><span class="t en">/yr</span><span class="t zh">/年</span></small></span></div>
-        <p><span class="t en"><b>10% off all usage</b> + extra discount on select models. Priority support.</span><span class="t zh"><b>所有用量 9 折</b> + 部分模型额外折扣。优先支持。</span></p>
-        <a class="planbtn primary" href="mailto:carol@computenotes.co?subject=Watt%20%E2%80%94%20Growth%20plan&body=Hi%20Carol%2C%0A%0AI%27d%20like%20to%20subscribe%20to%20the%20Watt%20Growth%20plan.%0ABilling%3A%20monthly%20/%20yearly%20%28please%20note%20which%29.%0AModels%20I%20use%3A%0ARough%20monthly%20AI%20spend%3A%0A%0APlease%20send%20me%20a%20secure%20payment%20link.%20Thanks%21"><span class="t en">Choose Growth →</span><span class="t zh">选择成长 →</span></a>
+      <div class="plan pop">
+        <div class="tag">Most popular</div>
+        <div class="pk">Growth</div>
+        <div class="amt"><span class="pm">A$199<small>/mo</small></span><span class="py">A$1,990<small>/yr</small></span></div>
+        <ul><li>Everything in Starter</li><li><b>10% off all usage</b></li><li>Extra discount on select models</li><li>Priority support</li></ul>
+        <a class="btn primary" href="mailto:carol@computenotes.co?subject=Watt%20%E2%80%94%20Growth%20plan">Get started</a>
       </div>
-      <div class="cell plan">
-        <div class="k"><span class="t en">Scale</span><span class="t zh">规模</span></div>
-        <div class="amt"><span class="pm">A$499<small><span class="t en">/mo</span><span class="t zh">/月</span></small></span><span class="py">A$4,990<small><span class="t en">/yr</span><span class="t zh">/年</span></small></span></div>
-        <p><span class="t en"><b>20% off all usage</b> + wholesale rates on select models. Dedicated contact.</span><span class="t zh"><b>所有用量 8 折</b> + 部分模型批发价。专属对接。</span></p>
-        <a class="planbtn" href="mailto:carol@computenotes.co?subject=Watt%20%E2%80%94%20Scale%20plan&body=Hi%20Carol%2C%0A%0AI%27d%20like%20to%20subscribe%20to%20the%20Watt%20Scale%20plan.%0ABilling%3A%20monthly%20/%20yearly%20%28please%20note%20which%29.%0AModels%20I%20use%3A%0ARough%20monthly%20AI%20spend%3A%0A%0APlease%20send%20me%20a%20secure%20payment%20link.%20Thanks%21"><span class="t en">Choose Scale →</span><span class="t zh">选择规模 →</span></a>
+      <div class="plan">
+        <div class="pk">Scale</div>
+        <div class="amt"><span class="pm">A$499<small>/mo</small></span><span class="py">A$4,990<small>/yr</small></span></div>
+        <ul><li>Everything in Growth</li><li><b>20% off all usage</b></li><li>Wholesale rates on select models</li><li>Dedicated contact</li></ul>
+        <a class="btn ghost" href="mailto:carol@computenotes.co?subject=Watt%20%E2%80%94%20Scale%20plan">Get started</a>
       </div>
     </div>
-    <div class="addon">
-      <div class="k"><span class="t en">Optimization add-on</span><span class="t zh">成本优化加购</span></div>
-      <p><span class="t en">Turn on routing + compression. We keep <b>25–30% of verified savings</b> — no savings, no fee. Your net bill still drops.</span><span class="t zh">开启路由与压缩。我们只从<b>可验证的节省</b>里抽 25–30%——不省钱，不收费。你的净账单依然下降。</span></p>
-    </div>
-    <div class="finenote"><span class="t en">Prices in AUD, GST included · the more you commit, the bigger the discount · pay first, then we set up your key within the hour.</span><span class="t zh">价格为澳元、含 GST · 用量承诺越大，折扣越大 · 先付款，我们在一小时内为你开通。</span></div>
+    <p class="herofoot" style="text-align:center;margin-top:22px">Prices in AUD, GST included · pay via Stripe · cancel anytime</p>
   </div>
 </section>
 
-<!-- ROADMAP STRIP -->
-<section class="band vision">
-  <div class="wrap pad center">
-    <p class="lead" style="margin:0 auto"><span class="t en">Today, Watt gets you <span class="hl">cheaper access to every model</span> through one key. Next, Watt <span class="hl">automatically routes and compresses</span> your traffic to cut the bill 20–40% — and you only pay from the savings.</span><span class="t zh">今天，Watt 让你用一个 key <span class="hl">更低成本地调用所有模型</span>。接下来，Watt 会<span class="hl">自动路由与压缩</span>你的流量，把账单削减 20–40%——而你只从节省里付费。</span></p>
-    <div class="ctacenter"><a class="btn text" href="#teardown"><span class="t en">Get a free AI spend teardown →</span><span class="t zh">获取免费 AI 成本诊断 →</span></a></div>
-  </div>
-</section>
-
-<!-- OPTIMIZATION STORY (the roadmap depth) -->
-<section class="band">
-  <div class="wrap pad">
-    <div class="seclabel"><span class="t en">Where the money goes</span><span class="t zh">钱花在哪了</span></div>
-    <h2 class="sectitle"><span class="t en">Most of an AI bill isn't new work. It's waste you're paying frontier prices for.</span><span class="t zh">AI 账单的大头不是新工作，而是你在用前沿模型的价格为浪费买单。</span></h2>
-    <div class="grid g-3">
-      <div class="cell"><h4><span class="t en">Re-sent context</span><span class="t zh">重复发送的上下文</span></h4><p><span class="t en">Your agent re-reads its whole history every loop, so you pay for the same tokens again and again — often the single biggest line in the bill.</span><span class="t zh">Agent 每一轮都把完整历史重新读一遍，于是同样的 token 被反复计费——往往是账单里最大的一项。</span></p></div>
-      <div class="cell"><h4><span class="t en">Frontier prices for easy tasks</span><span class="t zh">简单任务用了前沿模型的价</span></h4><p><span class="t en">Formatting, extraction, and boilerplate run on a top-tier model when a far cheaper one would finish them identically.</span><span class="t zh">格式化、抽取、模板化这些活儿都跑在顶级模型上，其实更便宜的模型也能做到一样的结果。</span></p></div>
-      <div class="cell"><h4><span class="t en">No routing on outcome</span><span class="t zh">没有按结果路由</span></h4><p><span class="t en">Existing routers pick a model on price and latency — none check whether the task actually got done, so you can't safely route down.</span><span class="t zh">现有的路由只看价格和延迟，不判断任务是否真的完成——所以你不敢放心往更便宜的模型上切。</span></p></div>
-    </div>
-  </div>
-</section>
-
-<section class="band">
-  <div class="wrap pad">
-    <div class="seclabel"><span class="t en">How Watt optimization works</span><span class="t zh">Watt 优化怎么工作</span></div>
-    <h2 class="sectitle"><span class="t en">Four steps. Your stack never changes.</span><span class="t zh">四步。你的技术栈完全不用动。</span></h2>
-    <div class="grid g-4">
-      <div class="cell"><div class="num">1</div><h4><span class="t en">Classify</span><span class="t zh">分类</span></h4><p><span class="t en">Each request is scored — reason vs. execute, hard vs. boilerplate — to decide what can safely route down.</span><span class="t zh">为每个请求打分——是推理还是执行、是难题还是模板活——判断哪些可以安全降档。</span></p></div>
-      <div class="cell"><div class="num">2</div><h4><span class="t en">Compress</span><span class="t zh">压缩</span></h4><p><span class="t en">Redundant re-sent history is stripped before the call is priced, while caches are preserved.</span><span class="t zh">在计费之前剥掉重复发送的历史，同时保留缓存。</span></p></div>
-      <div class="cell"><div class="num">3</div><h4><span class="t en">Route</span><span class="t zh">路由</span></h4><p><span class="t en">Easy work goes to a cheaper model in your approved pool; hard reasoning stays frontier. Automatic failover.</span><span class="t zh">简单任务交给你授权范围内更便宜的模型，难推理仍走前沿模型。自动故障兜底。</span></p></div>
-      <div class="cell"><div class="num">4</div><h4><span class="t en">Prove</span><span class="t zh">验证</span></h4><p><span class="t en">Every call is logged against what it would have cost on the frontier — so savings are auditable, per request.</span><span class="t zh">每一次调用都对照“如果走前沿模型会花多少”记账——每个请求省了多少，可逐条审计。</span></p></div>
-    </div>
-  </div>
-</section>
-
-<section class="band">
-  <div class="wrap pad">
-    <div class="seclabel"><span class="t en">The honest answers</span><span class="t zh">把丑话说在前面</span></div>
-    <h2 class="sectitle"><span class="t en">You're putting Watt in your hot path. Here's how that's handled.</span><span class="t zh">你要把 Watt 放进生产链路。这些问题我们正面回答。</span></h2>
-    <div class="grid g-2">
-      <div class="cell q-cell"><div class="q"><span class="t en">Where does my data go?</span><span class="t zh">我的数据会去哪？</span></div><h3><span class="t en">You control the model pool.</span><span class="t zh">模型池由你掌控。</span></h3><p><span class="t en">Default to your existing providers only. Add cheaper models when — and only when — you choose. No traffic goes anywhere you didn't opt into.</span><span class="t zh">默认只用你现有的供应商。要不要接入更便宜的模型，完全由你决定。任何你没主动选择的地方，都不会收到流量。</span></p></div>
-      <div class="cell q-cell"><div class="q"><span class="t en">Is my data used to train you?</span><span class="t zh">会拿我的数据训练吗？</span></div><h3><span class="t en">No. Your prompts are yours.</span><span class="t zh">不会。你的 prompt 是你的。</span></h3><p><span class="t en">Watt learns routing from metadata — task type, model, cost, whether it passed your quality check — never your prompt or output content.</span><span class="t zh">Watt 只从元数据学习路由——任务类型、模型、成本、是否通过质量校验——绝不碰你的 prompt 或输出内容。</span></p></div>
-      <div class="cell q-cell"><div class="q"><span class="t en">If Watt goes down?</span><span class="t zh">Watt 挂了怎么办？</span></div><h3><span class="t en">Failover to the model directly.</span><span class="t zh">直接兜底到模型本身。</span></h3><p><span class="t en">A thin proxy with automatic fallback: if anything fails, the call goes straight to your provider. An outage degrades to "no savings," never "no service."</span><span class="t zh">一层很薄的代理，带自动兜底：一旦出问题，调用直接打到你的供应商。故障最多让你“省不到钱”，而不会“服务中断”。</span></p></div>
-      <div class="cell q-cell"><div class="q"><span class="t en">Will it work with my stack?</span><span class="t zh">能接进我的技术栈吗？</span></div><h3><span class="t en">OpenAI-compatible. One base-URL change.</span><span class="t zh">兼容 OpenAI 接口。改一个 base URL。</span></h3><p><span class="t en">Streaming, tool calls, and structured outputs pass through unchanged. If your agent speaks the OpenAI API, it speaks Watt.</span><span class="t zh">流式、工具调用、结构化输出原样透传。只要你的 Agent 用 OpenAI 接口，就能直接接 Watt。</span></p></div>
-      <div class="cell q-cell"><div class="q"><span class="t en">What does optimization cost?</span><span class="t zh">优化怎么收费？</span></div><h3><span class="t en">A share of verified savings.</span><span class="t zh">只从可验证的节省里抽成。</span></h3><p><span class="t en">You see your measured baseline and the per-request savings first. We keep a slice (~25–30%) of verified savings; your net bill still drops. No savings, no fee.</span><span class="t zh">你会先看到实测基线和每个请求的节省。我们只从已验证的节省里拿一份（约 25–30%），你的净账单仍然下降。不省钱，不收费。</span></p></div>
-      <div class="cell q-cell"><div class="q"><span class="t en">How do you judge quality?</span><span class="t zh">怎么判断质量？</span></div><h3><span class="t en">You set the floor.</span><span class="t zh">底线由你设。</span></h3><p><span class="t en">Cheap-routed outputs are scored against a bar you control. Anything below it promotes back to the frontier automatically — start so high that nothing routes down until you trust it.</span><span class="t zh">被路由到便宜模型的输出按你设定的质量线打分。低于这条线的自动切回前沿模型——你可以先把底线设得很高，在信任之前一个都不降档。</span></p></div>
+<!-- DASHBOARD PREVIEW -->
+<section id="dashboard" style="padding-top:40px">
+  <div class="wrap">
+    <div class="seclabel">Dashboard</div>
+    <h2 class="sectitle">Every request, every dollar — in one place.</h2>
+    <div class="dash">
+      <div class="top"><span class="d"></span><span class="d"></span><span class="d"></span><span class="t">dashboard.watt.computenotes.co</span></div>
+      <div class="body">
+        <div class="stats">
+          <div class="stat"><div class="l">Monthly spend</div><div class="v">A$1,284<small>▼ 31%</small></div></div>
+          <div class="stat"><div class="l">Tokens</div><div class="v">48.2M</div></div>
+          <div class="stat"><div class="l">Requests</div><div class="v">96,402</div></div>
+          <div class="stat"><div class="l">Active keys</div><div class="v">3</div></div>
+        </div>
+        <div class="dgrid">
+          <div class="dbox">
+            <h4>Usage by model</h4>
+            <div class="bar"><span class="nm">claude-sonnet</span><span class="track"><span class="fill" style="width:42%;background:#D97757"></span></span><span class="pct">42%</span></div>
+            <div class="bar"><span class="nm">gpt-4o</span><span class="track"><span class="fill" style="width:26%;background:#ededed"></span></span><span class="pct">26%</span></div>
+            <div class="bar"><span class="nm">deepseek-chat</span><span class="track"><span class="fill" style="width:22%;background:#4D6BFE"></span></span><span class="pct">22%</span></div>
+            <div class="bar"><span class="nm">gemini-2.5</span><span class="track"><span class="fill" style="width:10%;background:#9168C0"></span></span><span class="pct">10%</span></div>
+            <div class="keyrow"><span class="mono">●</span><span class="k">watt-live-sk-9f2a••••••••••••••••3c7e</span><span class="copy">Copy</span></div>
+          </div>
+          <div class="dbox">
+            <h4>Recent activity</h4>
+            <div class="act"><span>POST /v1/chat/completions</span><span class="ok">200 · 1.2k tok</span></div>
+            <div class="act"><span>POST /v1/chat/completions</span><span class="ok">200 · 840 tok</span></div>
+            <div class="act"><span>POST /v1/embeddings</span><span class="ok">200 · 312 tok</span></div>
+            <div class="act"><span>POST /v1/chat/completions</span><span class="ok">200 · 2.0k tok</span></div>
+            <div class="act"><span>Invoice · June 2026</span><span style="color:var(--green)">Paid · A$1,284</span></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- FOUNDER -->
-<section class="band">
-  <div class="wrap pad">
-    <div class="seclabel"><span class="t en">Who's building it</span><span class="t zh">谁在做这件事</span></div>
-    <div class="founder">
-      <h4><span class="t en">Carol — founder, Watt</span><span class="t zh">Carol — Watt 创始人</span></h4>
-      <p><span class="t en">I spent years in M&amp;A and financial due diligence — taking businesses apart to see where the money really goes. I come at AI spend as a unit-economics problem, not just an engineering one: the goal isn't a clever router, it's a smaller bill you can audit line by line. That's why the first thing I do is measure — not pitch.</span><span class="t zh">我做了多年并购和财务尽调——把一家家公司拆开，看钱到底花在哪。我把 AI 成本当作单位经济学问题来解，而不只是工程问题：目标不是一个聪明的路由器，而是一份你能逐行审计、且更小的账单。所以我做的第一件事是“测量”，而不是“推销”。</span></p>
+<!-- DOCS PREVIEW -->
+<section id="docs">
+  <div class="wrap">
+    <div class="docprev">
+      <div>
+        <div class="seclabel" style="text-align:left">Documentation</div>
+        <h2 style="font-size:clamp(24px,3vw,32px);letter-spacing:-.025em;font-weight:600;margin-top:12px;max-width:16ch">Built for developers, from the first request.</h2>
+        <p style="color:var(--muted);margin-top:14px;font-size:15px;line-height:1.65;max-width:46ch">OpenAI-compatible from day one — streaming, tool calls and structured outputs pass through unchanged. Copy-paste quickstarts for Python, Node and curl.</p>
+        <a class="btn ghost" style="margin-top:20px" href="#docs">Read the docs →</a>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <ul class="doclist" style="margin:0">
+          <li style="padding:16px 22px;border-top:0">Quick start <span class="ar">→</span></li>
+          <li style="padding:16px 22px">Authentication <span class="ar">→</span></li>
+          <li style="padding:16px 22px">OpenAI SDK compatibility <span class="ar">→</span></li>
+          <li style="padding:16px 22px">Streaming <span class="ar">→</span></li>
+          <li style="padding:16px 22px">Supported models <span class="ar">→</span></li>
+          <li style="padding:16px 22px">Rate limits &amp; error codes <span class="ar">→</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- GET STARTED (manual onboarding) -->
-<section class="band partners" id="get">
-  <div class="wrap pad">
-    <div class="seclabel"><span class="t en">How it works</span><span class="t zh">如何开始</span></div>
-    <h2><span class="t en">Pay, then you're set up within the hour.</span><span class="t zh">先付款，一小时内为你开通。</span></h2>
-    <p><span class="t en">Onboarding is hands-on while we're early — so a real person sets you up, fast.</span><span class="t zh">早期阶段由真人为你开通——快速、可靠。</span></p>
-    <ul class="offer">
-      <li><span class="t en"><b>Choose a plan</b> — pick monthly or yearly; we email you a secure payment link in AUD with a GST tax invoice.</span><span class="t zh"><b>选择套餐</b>——按月或按年；我们会把澳元结算的安全付款链接和 GST 税务发票发到你邮箱。</span></li>
-      <li><span class="t en"><b>Pay the link</b> — and tell us which models you use.</span><span class="t zh"><b>支付该链接</b>——并告诉我们你用哪些模型。</span></li>
-      <li><span class="t en"><b>Get your API key</b> — base URL + quickstart, usually within the hour.</span><span class="t zh"><b>收到你的 API key</b>——base URL 和快速上手，通常一小时内。</span></li>
-    </ul>
-    <div class="ctacenter">
-      <a class="btn primary" href="#pricing"><span class="t en">See plans &amp; pay →</span><span class="t zh">查看套餐并付款 →</span></a>
-      <a class="btn text" href="mailto:carol@computenotes.co?subject=Watt%20API%20question"><span class="t en">Questions? carol@computenotes.co</span><span class="t zh">有疑问？carol@computenotes.co</span></a>
+<!-- FAQ -->
+<section style="padding-top:40px">
+  <div class="wrap">
+    <div class="seclabel">FAQ</div>
+    <h2 class="sectitle">Questions, answered.</h2>
+    <div class="faq">
+      <div class="qa"><h4>Is Watt OpenAI-compatible?</h4><p>Yes. Change one base URL and your existing OpenAI SDK code works unchanged — streaming, tool calls and structured outputs included.</p></div>
+      <div class="qa"><h4>Which models can I call?</h4><p>Claude, GPT, Gemini, DeepSeek, MiniMax, GLM, Llama, Qwen and more — all through one key. New models are added regularly.</p></div>
+      <div class="qa"><h4>How does billing work?</h4><p>Simple AUD subscriptions via Stripe, with proper GST tax invoices. Usage draws against your plan; you see spend and cost-by-model in the dashboard.</p></div>
+      <div class="qa"><h4>Is my data used for training?</h4><p>No. Your prompts and outputs are never used for training. Watt logs only metadata — model, tokens and cost.</p></div>
+      <div class="qa"><h4>Where is Watt based?</h4><p>Australia. AUD billing, GST invoices, local timezone support, and a real person behind the account.</p></div>
     </div>
   </div>
 </section>
 
-<!-- TEARDOWN -->
-<section class="band partners" id="teardown">
-  <div class="wrap pad">
-    <div class="seclabel"><span class="t en">Design partners · optimization</span><span class="t zh">设计合作伙伴 · 成本优化</span></div>
-    <h2><span class="t en">Get a free AI spend teardown.</span><span class="t zh">获取一份免费的 AI 成本诊断。</span></h2>
-    <p><span class="t en">We'll measure where your AI spend is actually going — per request — before you change anything. If we can't find meaningful savings, we'll tell you.</span><span class="t zh">在你改动任何东西之前，我们会逐请求测出你的 AI 开销到底花在哪。如果找不到有意义的节省，我们会直接告诉你。</span></p>
-    <ul class="offer">
-      <li><span class="t en"><b>Free baseline teardown</b> — point a test workload at Watt and get a per-request map of where your spend goes.</span><span class="t zh"><b>免费基线诊断</b>——把一段测试流量指向 Watt，拿到一张逐请求的成本去向图。</span></li>
-      <li><span class="t en"><b>Free integration</b> — one base-URL change, on a test workload first.</span><span class="t zh"><b>免费接入</b>——改一个 base URL，先在测试流量上跑。</span></li>
-      <li><span class="t en"><b>You only pay on verified savings</b> — against the baseline you saw up front. No savings, no fee.</span><span class="t zh"><b>只为可验证的节省付费</b>——对照你一开始看到的基线。不省钱，不收费。</span></li>
-    </ul>
-    <div class="formlead"><span class="t en">Get my free teardown</span><span class="t zh">获取免费 AI 成本诊断</span></div>
-    <div class="embed">
-      <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="09b5541e-e964-421a-98a5-84e78862052e"></script>
+<!-- FINAL CTA -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="finalcta">
+      <h2>Start building on Watt.</h2>
+      <p>One API key, every leading model, billed in AUD. Be making calls within the hour.</p>
+      <div class="cta-row"><a class="btn primary lg" href="#pricing">Get started →</a><a class="btn ghost lg" href="#docs">View documentation</a></div>
     </div>
-    <div class="finenote" style="margin-top:12px"><span class="t en">Form not loading? <a href="mailto:carol@computenotes.co?subject=Free%20AI%20spend%20teardown" style="color:var(--amber)">Email us &rarr;</a></span><span class="t zh">表单加载不出来？<a href="mailto:carol@computenotes.co?subject=Free%20AI%20spend%20teardown" style="color:var(--amber)">邮件联系我们 &rarr;</a></span></div>
-    <div class="cohort"><span class="t en">Best fit if you spend ≥ $2k/mo on AI · free integration · you only pay on verified savings.</span><span class="t zh">最适合每月 AI 花费 ≥ 2,000 美元的团队 · 免费接入 · 只为可验证的节省付费。</span></div>
   </div>
 </section>
+
+</main>
 
 <footer>
   <div class="wrap">
-    <a class="brand" href="#top" style="font-size:14px"><svg class="bolt" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13l0-8z"/></svg> Watt</a>
-    <div><a href="mailto:carol@computenotes.co" style="color:var(--muted)">carol@computenotes.co</a> · <span class="t en">© 2026 Watt · <a href="https://www.computenotes.co/" style="color:var(--muted)">a Compute Notes venture</a></span><span class="t zh">© 2026 Watt · <a href="https://www.computenotes.co/" style="color:var(--muted)">Compute Notes 旗下项目</a></span></div>
+    <div class="fgrid">
+      <div class="fcol">
+        <a class="brand" href="#top" style="font-size:15px"><svg class="bolt" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13l0-8z"/></svg> Watt</a>
+        <p style="color:var(--muted);font-size:13.5px;margin-top:14px;max-width:30ch;line-height:1.6">One API for every leading AI model. Lower cost, one bill, one dashboard.</p>
+      </div>
+      <div class="fcol"><h5>Product</h5><a href="#pricing">Pricing</a><a href="#models">Models</a><a href="#dashboard">Dashboard</a></div>
+      <div class="fcol"><h5>Developers</h5><a href="#docs">Documentation</a><a href="#docs">Quick start</a><a href="#docs">Status</a></div>
+      <div class="fcol"><h5>Company</h5><a href="#top">About</a><a href="mailto:carol@computenotes.co">Contact</a></div>
+    </div>
+    <div class="fbottom">
+      <span>© 2026 Watt</span>
+      <span>Built by <a href="https://www.computenotes.co/">Compute Notes</a></span>
+    </div>
   </div>
 </footer>
 
-<script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
 <script>
-/* Watt — flowing line-wave field. */
-(function(){
-  var c=document.getElementById('waves'); if(!c) return; var x=c.getContext('2d');
-  var DPR=Math.min(2,window.devicePixelRatio||1),W=0,H=0,t=0.4,last=0,raf=0,running=false,ROWS,COLS;
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function size(){W=innerWidth;H=innerHeight;c.width=W*DPR;c.height=H*DPR;c.style.width=W+'px';c.style.height=H+'px';x.setTransform(DPR,0,0,DPR,0,0);var m=W<760;ROWS=m?30:48;COLS=m?92:162;}
-  function hAt(nx,z){return Math.sin(nx*5.5+t*0.55+z*3.0)*1.0+Math.sin(nx*10.5-t*0.35+z*5.0)*0.5+Math.sin(nx*2.6+t*0.22)*0.75+Math.sin(nx*17.0+t*0.7+z*2.0)*0.22;}
-  function draw(){
-    x.clearRect(0,0,W,H);
-    var horizon=H*0.30,bottom=H*0.99;
-    for(var j=0;j<ROWS;j++){
-      var z=j/(ROWS-1),persp=Math.pow(z,1.75);
-      var yBase=horizon+persp*(bottom-horizon);
-      var spread=0.55+persp*0.72,amp=8+persp*74;
-      var band=Math.sin(Math.min(1,z)*Math.PI);
-      var alpha=0.05+0.52*Math.pow(band,0.85);
-      var lw=0.6+persp*1.1, dotted=(j%7===3);
-      x.beginPath();
-      for(var i=0;i<COLS;i++){var nx=i/(COLS-1);var sx=W*0.5+(nx-0.5)*W*spread;var sy=yBase-hAt(nx,z)*amp;if(i===0)x.moveTo(sx,sy);else x.lineTo(sx,sy);}
-      var cr=Math.round(150+(245-150)*z),cg=Math.round(190+(200-190)*z),cb=Math.round(255+(140-255)*z);x.strokeStyle='rgba('+cr+','+cg+','+cb+','+alpha.toFixed(3)+')';x.lineWidth=lw;
-      if(dotted)x.setLineDash([1,5]);else x.setLineDash([]);
-      x.stroke();
-    }
-    x.setLineDash([]);
-  }
-  function frame(tt){if(!running)return;var dt=Math.min(48,tt-last)||16;last=tt;t+=dt*0.00020;draw();raf=requestAnimationFrame(frame);}
-  function start(){if(running||reduce)return;running=true;last=performance.now();raf=requestAnimationFrame(frame);}
-  function stop(){running=false;cancelAnimationFrame(raf);}
-  var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){size();if(reduce)draw();},160);},{passive:true});
-  document.addEventListener('visibilitychange',function(){document.hidden?stop():start();});
-  var hero=document.getElementById('top');
-  if('IntersectionObserver' in window)new IntersectionObserver(function(e){e[0].isIntersecting?start():stop();},{threshold:0.01}).observe(hero);
-  size();
-  if(reduce)draw();else start();
-})();
+(function(){var sec=document.querySelector('.pricing');if(!sec)return;var bs=sec.querySelectorAll('.billtoggle button');function set(b){sec.classList.toggle('yr',b==='yr');for(var i=0;i<bs.length;i++){bs[i].classList.toggle('active',bs[i].getAttribute('data-bill')===b);}}for(var i=0;i<bs.length;i++){(function(btn){btn.addEventListener('click',function(){set(btn.getAttribute('data-bill'));});})(bs[i]);}})();
 </script>
-<script>(function(){var k='watt_lang';function setActive(){var zh=document.documentElement.classList.contains('zh');var bs=document.querySelectorAll('.langsw button');for(var i=0;i<bs.length;i++){bs[i].classList.toggle('active',(bs[i].getAttribute('data-lang')==='zh')===zh);}}function set(l){var d=document.documentElement,zh=(l==='zh');d.classList.toggle('zh',zh);d.setAttribute('lang',zh?'zh-CN':'en');try{localStorage.setItem(k,l);}catch(e){}setActive();}setActive();var bs=document.querySelectorAll('.langsw button');for(var i=0;i<bs.length;i++){(function(b){b.addEventListener('click',function(){set(b.getAttribute('data-lang'));});})(bs[i]);}})();</script>
-<script>(function(){var sec=document.querySelector('.price');if(!sec)return;var bs=sec.querySelectorAll('.billtoggle button');function set(b){var yr=(b==='yr');sec.classList.toggle('yr',yr);for(var i=0;i<bs.length;i++){bs[i].classList.toggle('active',bs[i].getAttribute('data-bill')===b);}}for(var i=0;i<bs.length;i++){(function(btn){btn.addEventListener('click',function(){set(btn.getAttribute('data-bill'));});})(bs[i]);}})();</script>
 </body>
 </html>
